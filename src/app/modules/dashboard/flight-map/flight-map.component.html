@@ -1,0 +1,37 @@
+<section class="surface map-card" aria-label="Flight map">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">AIRSPACE OVERVIEW</span>
+      <h2>
+        Flight radar <span class="count-tag">{{ flights.length }} tracks</span>
+      </h2>
+    </div>
+    <button mat-stroked-button type="button">
+      <mat-icon>center_focus_strong</mat-icon> Fit all
+    </button>
+  </div>
+
+  <div class="map-wrap">
+    <div
+      #mapHost
+      class="flight-map"
+      aria-label="Interactive flight map; select a plane to view its route"
+    ></div>
+    <div *ngIf="!flights.length" class="map-notice" role="status">
+      No flights match these filters.
+    </div>
+    <div *ngIf="tileError" class="tile-notice" role="status">
+      Map tiles unavailable. Flight markers and routes remain interactive.
+    </div>
+  </div>
+  
+  <div class="map-footer">
+    <div class="legend">
+      <span><i class="dot en-route"></i>En Route</span
+      ><span><i class="dot delayed"></i>Delayed</span
+      ><span><i class="dot boarding"></i>Boarding</span
+      ><span><i class="dot arrived"></i>Arrived</span>
+    </div>
+    <span>Mock positions · UTC</span>
+  </div>
+</section>

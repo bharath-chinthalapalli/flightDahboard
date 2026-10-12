@@ -20,10 +20,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('flightDashboard');
   });
 
-  it('should render title', () => {
+  it('should render the application route outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('flightDashboard app is running!');
+    expect(compiled.querySelector('router-outlet')).not.toBeNull();
   });
 });

@@ -1,0 +1,106 @@
+<section class="surface" aria-label="Flights table">
+  <div class="section-heading">
+    <div>
+      <h2>
+        Flights <span class="count-tag">{{ flights.length }} flights</span>
+      </h2>
+      <p>All times UTC · Select a flight to inspect its route</p>
+    </div>
+    <button mat-stroked-button type="button" (click)="exportCsv()" [disabled]="!flights.length">
+      <mat-icon>download</mat-icon> Export CSV
+    </button>
+  </div>
+  <div class="table-scroll">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="flight-table"
+      aria-label="Filtered flight operations"
+    >
+      <ng-container matColumnDef="id"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>Flight</th>
+        <td mat-cell *matCellDef="let f">
+          <button
+            mat-button
+            type="button"
+            class="flight-number"
+            [attr.aria-label]="'Select flight ' + f.id"
+            [attr.aria-pressed]="selectedId === f.id"
+            (click)="flightSelected.emit(f)"
+          >
+            {{ f.id }}
+          </button>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="callsign"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>Callsign</th>
+        <td mat-cell *matCellDef="let f" class="callsign">{{ f.callsign }}</td></ng-container
+      >
+      <ng-container matColumnDef="origin"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>Origin</th>
+        <td mat-cell *matCellDef="let f">
+          <b>{{ f.origin.code }}</b
+          ><small>{{ f.origin.city }}</small>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="destination"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>Destination</th>
+        <td mat-cell *matCellDef="let f">
+          <b>{{ f.destination.code }}</b
+          ><small>{{ f.destination.city }}</small>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="status"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let f">
+          <span class="status-pill" [attr.data-status]="f.status">{{ f.status }}</span
+          ><small *ngIf="f.delayMinutes" class="delay-text">+{{ f.delayMinutes }} min</small>
+        </td></ng-container
+      >
+      <ng-container matColumnDef="departure"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>ETD</th>
+        <td mat-cell *matCellDef="let f">{{ f.departure }}</td></ng-container
+      >
+      <ng-container matColumnDef="arrival"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>ETA</th>
+        <td mat-cell *matCellDef="let f">{{ f.arrival }}</td></ng-container
+      >
+      <ng-container matColumnDef="aircraft"
+        ><th mat-header-cell *matHeaderCellDef mat-sort-header>Aircraft</th>
+        <td mat-cell *matCellDef="let f">{{ f.aircraft }}</td></ng-container
+      >
+      <ng-container matColumnDef="actions"
+        ><th mat-header-cell *matHeaderCellDef>Route</th>
+        <td mat-cell *matCellDef="let f">
+          <button
+            mat-icon-button
+            type="button"
+            [attr.aria-label]="'View route for ' + f.id"
+            (click)="flightSelected.emit(f)"
+          >
+            <mat-icon>near_me</mat-icon>
+          </button>
+        </td></ng-container
+      >
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: columns"
+        [class.selected-row]="selectedId === row.id"
+        (click)="flightSelected.emit(row)"
+      ></tr>
+      <tr *matNoDataRow>
+        <td colspan="9" class="table-empty">
+          No flights match these filters. Clear filters to see all flights.
+        </td>
+      </tr>
+    </table>
+  </div>
+  <mat-paginator
+    [pageSize]="8"
+    [pageSizeOptions]="[8, 16, 20]"
+    showFirstLastButtons
+    aria-label="Flight table pagination"
+  ></mat-paginator>
+</section>

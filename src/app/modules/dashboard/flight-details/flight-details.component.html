@@ -1,0 +1,89 @@
+<aside class="surface details-card" aria-label="Flight details" aria-live="polite">
+  <ng-container *ngIf="flight as f; else empty">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">SELECTED FLIGHT</span>
+        <h2>
+          {{ f.id }} <span class="status-pill" [attr.data-status]="f.status">{{ f.status }}</span>
+        </h2>
+        <p>{{ f.airline }} · {{ f.callsign }}</p>
+      </div>
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Close flight details"
+        (click)="closed.emit()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="route-summary">
+      <div>
+        <strong>{{ f.origin.code }}</strong
+        ><b>{{ f.origin.city }}</b
+        ><small>{{ f.origin.name }}</small>
+      </div>
+      <mat-icon>flight_takeoff</mat-icon>
+      <div class="destination">
+        <strong>{{ f.destination.code }}</strong
+        ><b>{{ f.destination.city }}</b
+        ><small>{{ f.destination.name }}</small>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <mat-progress-bar
+        mode="determinate"
+        [value]="f.progress * 100"
+        aria-label="Flight route progress"
+      ></mat-progress-bar>
+      <p>
+        {{ f.progress * 100 | number: '1.0-0' }}% of route completed
+        <span *ngIf="f.delayMinutes">· +{{ f.delayMinutes }} min delay</span>
+      </p>
+    </div>
+    <dl class="telemetry">
+      <div>
+        <dt>Aircraft type</dt>
+        <dd>{{ f.aircraft }}</dd>
+        <small>{{ f.airline }}</small>
+      </div>
+      <div>
+        <dt>Altitude</dt>
+        <dd>{{ f.altitude | number }} ft</dd>
+        <small>{{ f.altitude ? 'Cruising' : 'On ground' }}</small>
+      </div>
+      <div>
+        <dt>Ground speed</dt>
+        <dd>{{ f.speed }} kts</dd>
+        <small>Mock telemetry</small>
+      </div>
+      <div>
+        <dt>Current status</dt>
+        <dd>{{ f.status }}</dd>
+        <small>{{ f.delayMinutes ? '+' + f.delayMinutes + ' min' : 'No reported delay' }}</small>
+      </div>
+      <div>
+        <dt>Estimated departure</dt>
+        <dd>{{ f.departure }} UTC</dd>
+        <small>Demo schedule</small>
+      </div>
+      <div>
+        <dt>Estimated arrival</dt>
+        <dd>{{ f.arrival }} UTC</dd>
+        <small>Demo schedule</small>
+      </div>
+    </dl>
+    <div class="details-actions">
+      <button mat-flat-button color="primary" type="button" (click)="viewRoute.emit()">
+        <mat-icon>route</mat-icon> View full flight route
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #empty
+    ><div class="empty-details">
+      <mat-icon>connecting_airports</mat-icon>
+      <h2>Select a flight</h2>
+      <p>Choose a plane on the map or a flight in the table to inspect its route and details.</p>
+    </div></ng-template
+  >
+</aside>

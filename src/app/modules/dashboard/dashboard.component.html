@@ -1,7 +1,7 @@
 <div [class.dark]="darkMode">
   <div class="min-h-screen bg-[#f6f9fd] font-sans text-[#20365b] dark:bg-slate-950 dark:text-slate-200">
     <button *ngIf="sidebar" type="button" aria-label="Close navigation" class="fixed inset-0 z-30 bg-slate-950/50 lg:hidden" (click)="sidebar = false"></button>
-    <aside id="primary-navigation" class="fixed inset-y-0 left-0 z-40 flex w-[280px] flex-col overflow-y-auto bg-gradient-to-br from-[#1b304f] to-[#111d37] px-[18px] text-[#c7d4e9] transition-transform duration-200 lg:translate-x-0" [ngClass]="sidebar ? 'translate-x-0' : '-translate-x-full'">
+    <aside id="primary-navigation" [attr.inert]="navigationOpen ? null : ''" class="sidebar-scroll fixed inset-y-0 left-0 z-40 flex w-[280px] flex-col overflow-y-auto bg-gradient-to-br from-[#1b304f] to-[#111d37] px-[18px] text-[#c7d4e9] transition-transform duration-200 motion-reduce:transition-none" [ngClass]="navigationOpen ? 'translate-x-0' : '-translate-x-full'">
       <a routerLink="/dashboard/mainDashboard" (click)="selectModule(allModules[0])" class="flex items-start gap-4 px-2 pb-10 pt-8">
         <svg class="h-10 w-10 shrink-0 text-[#2587f5]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m21.5 2.5-1.2-.3-7.4 5.6L4 5.5 2 7l7 4-4 4-3-.5-1 1 4 3 3 4 1-1-.5-3 4-4 4 7 1.5-2-2.3-8.9 5.6-7.4z"/></svg>
         <span><span class="block text-[26px] font-semibold leading-8 tracking-tight text-white">SkyTrack</span><span class="mt-1 block text-xs">Flight Tracking &amp; Operations</span></span>
@@ -19,9 +19,9 @@
         <div class="mt-12 space-y-1 text-xs leading-5"><p>UTC &nbsp; {{ today | date:'HH:mm':'UTC' }}</p><p>{{ today | date:'EEE, dd MMM yyyy':'UTC' }}</p></div>
       </div>
     </aside>
-    <div class="min-h-screen lg:ml-[280px]">
-      <app-top-bar [darkMode]="darkMode" [menuOpen]="sidebar" (menuToggle)="sidebar = !sidebar" (themeToggle)="darkMode = !darkMode"></app-top-bar>
-      <main aria-label="Dashboard content" class="min-h-[calc(100vh-100px)] p-6"><router-outlet></router-outlet></main>
+    <div class="min-h-screen transition-[margin] duration-200 motion-reduce:transition-none" [class.lg:ml-[280px]]="!sidebarCollapsed">
+      <app-top-bar [darkMode]="darkMode" [menuOpen]="navigationOpen" (menuToggle)="toggleNavigation()" (themeToggle)="darkMode = !darkMode"></app-top-bar>
+      <main aria-label="Dashboard content" class="min-h-[calc(100vh-100px)] px-6 pb-6"><router-outlet></router-outlet></main>
     </div>
   </div>
 </div>

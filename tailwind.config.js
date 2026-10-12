@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: [
-        "./src/**/*.{html,ts}",
-  ],
+  content: {
+    relative: true,
+    files: ['./src/**/*.{html,ts}'],
+  },
   theme: {
     extend: {
       screens: {
@@ -16,43 +17,12 @@ module.exports = {
       '2xl': '1920px',
     },
     colors: {
-      grayPrimary: "#303030",
-      graySecondary: "#D3D3D3",
-      hmsPrimary:"#F1613A",
-      hmsSecondary:"#DB502B",
-      bg_border:"#adadad",
-      whitePrimary:"#FFFFFF",
-      red_star:"#C30404",
-      text_secondary:"#979797",
-      text_header:"#373435",
-      blue_primary:"#5491E8",
-      table_bg_primary:"#FAFAFA",
-      card_bg_primary:"#FBF4F6",
-      card_border_bg_:"#F0D2C5",
-      background_color:"#FBFAFF",
-      greenPrimary:"#ABE3AD",
-      bluePrimary:"#A8D8EC",
-      orangePrimary:"#F1896D",
-      light_black:"#010101",
-      orangeSecondary:'#f7c5b0',
-      lightGrayColor:'#DFDFDF',
-      textSecondary:'#757575',
-     borderLine:'#D8D8D8',
-     hmsPrimaryLight:'#F7C5B0',
-     tableBorder:'#E4E4E4',
-     lightGreenSecondary:'#EBFFD6',
-     lightGreenPrimary:'#52C41A',
-     textRedPrimary:'#F5222D',
-     bgRedSecondary:'#FFF1F0',
-     bgLightOrange:'#f9c5b0',
-     //new colors as per Hedge:
-
-     text_Secondary: '#212529',
-     text_header_new:'#272b41',
-     border_stroke:'#f0f0f0',
-     img_border:'#f7f7f7',
-     table_header:'#333333',
-     table_header_bg:'#f4f4f4',
+      bg_border:"#eaeaea",
+      text_secondary:"#3F4850",
+      text_primary:"#0B1C30",
+      bg_content:"F8F9FF",
+     
+   
 
   },
     },

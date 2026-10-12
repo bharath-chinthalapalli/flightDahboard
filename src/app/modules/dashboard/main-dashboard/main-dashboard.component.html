@@ -1,1 +1,85 @@
-Dashboard content will be added separately.
+<section *ngIf="vm$ | async as vm">
+  <div class="dashboard-intro">
+    <div>
+      <span class="eyebrow">OPERATIONS CONTROL</span>
+      <h1>Flight overview</h1>
+    </div>
+    <span class="demo-label"><span class="dot en-route"></span> Mock data · All times UTC</span>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-stretch">
+    <div *ngFor="let option of vm.optionList" class="min-w-0">
+      <div class="p-4 border border-bg_border rounded-xl bg-white h-full flex flex-col">
+        <!-- Header -->
+        <div class="flex justify-between items-start gap-3">
+          <p class="text-text_secondary font-semibold text-xs">
+            {{ option.name }}
+          </p>
+
+          <div
+            class="p-1 rounded-md text-white shrink-0"
+            [ngClass]="{
+              'bg-green-700': option.statusColor === 'green',
+              'bg-red-700': option.statusColor === 'red',
+              'bg-blue-700': option.statusColor === 'blue',
+            }"
+          >
+            <mat-icon>{{ option.icon }}</mat-icon>
+          </div>
+        </div>
+
+        <!-- Count -->
+        <div class="text-text_primary font-bold text-2xl mt-2">
+          {{ option.count }}
+        </div>
+
+        <!-- Footer -->
+        <div class="flex items-start gap-2 mt-2 min-w-0">
+          <span
+            class="w-2 h-2 rounded-full shrink-0 mt-1.5"
+            [ngClass]="{
+              'bg-green-700': option.statusColor === 'green',
+              'bg-red-700': option.statusColor === 'red',
+              'bg-blue-700': option.statusColor === 'blue',
+            }"
+          >
+          </span>
+
+          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 min-w-0 flex-1">
+            <span class="text-sm break-words">
+              {{ option.subName }}
+            </span>
+
+            <span
+              class="text-sm font-semibold break-words"
+              [ngClass]="{
+                'text-green-700': option.statusColor === 'green',
+                'text-red-700': option.statusColor === 'red',
+                'text-blue-700': option.statusColor === 'blue',
+              }"
+            >
+              {{ option.subCount }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="operations-grid">
+    <app-flight-map
+      #flightMap
+      [flights]="vm.flights"
+      [selected]="vm.selected"
+      (flightSelected)="flightService.selectFlight($event)"
+    ></app-flight-map>
+    <app-flight-details
+      [flight]="vm.selected"
+      (closed)="flightService.selectFlight(null)"
+      (viewRoute)="flightMap.showRoute()"
+    ></app-flight-details>
+  </div>
+  <app-flight-table
+    [flights]="vm.flights"
+    [selectedId]="vm.selected?.id ?? null"
+    (flightSelected)="flightService.selectFlight($event)"
+  ></app-flight-table>
+</section>
